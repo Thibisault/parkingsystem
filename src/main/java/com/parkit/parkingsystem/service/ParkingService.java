@@ -45,9 +45,17 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
+
+                // TODO : Rajouter le message de Bon retour pour un conducteur qui revient
+                if (ticketDAO.getRegNumberCount(vehicleRegNumber) >=2) {
+                    System.out.println("Nice to see you again");
+                }
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
+                // TODO : J'ai rajouté un " else { erreur plus de places disponibles dans le logger } "
+            } else {
+                System.out.println("No more available spot");
             }
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
@@ -58,6 +66,7 @@ public class ParkingService {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
+
 
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
